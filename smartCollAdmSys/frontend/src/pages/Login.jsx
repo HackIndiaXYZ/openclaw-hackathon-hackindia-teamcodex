@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { Box, Button, Chip, IconButton, MenuItem, Paper, Stack, TextField, Typography } from '@mui/material';
+import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCameraRetro, faBrain, faBolt } from '@fortawesome/free-solid-svg-icons';
 
-// This page supports both login and registration so the backend can be used immediately.
-export default function Login({ onLogin, onRegister, authLoading, errorMessage }) {
+export default function Login({ onLogin, onRegister, authLoading, errorMessage, themeMode, onToggleTheme }) {
   const [mode, setMode] = useState('login');
   const [formData, setFormData] = useState({
     name: '',
@@ -26,107 +30,64 @@ export default function Login({ onLogin, onRegister, authLoading, errorMessage }
       return;
     }
 
-    await onLogin({
-      email: formData.email,
-      password: formData.password
-    });
+    await onLogin({ email: formData.email, password: formData.password });
   };
 
   return (
     <div className="login-page">
-      <div className="login-card">
+      <Paper className="login-card" elevation={0}>
         <div className="login-card__hero">
-          <span className="hero-badge">Hackathon MVP</span>
-          <h1>EduTrack</h1>
-          <p>
-            Smart attendance, smart reports, and a calmer workflow for professors.
-          </p>
-          <div className="login-tip-box">
-            <strong>First time here?</strong>
-            <p>Create a professor account using register mode, then start adding students.</p>
+          <div className="login-card__topbar">
+            <Chip label="Hackathon Ready" color="secondary" className="hero-badge" />
+            <IconButton className="theme-toggle-button login-theme-toggle" onClick={onToggleTheme} color="inherit">
+              {themeMode === 'light' ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
+            </IconButton>
+          </div>
+
+          <div className="login-hero__logo">
+            <FontAwesomeIcon icon={faBolt} />
+          </div>
+          <Typography variant="h1">EduTrack</Typography>
+          <Typography className="login-card__heroText">
+            Smart attendance, smoother admin workflows, and bilingual reports for modern colleges.
+          </Typography>
+
+          <div className="hero-feature-list">
+            <div className="hero-feature-item"><FontAwesomeIcon icon={faCameraRetro} /><span>OpenCV powered recognition</span></div>
+            <div className="hero-feature-item"><FontAwesomeIcon icon={faBrain} /><span>AI-style reports in Hindi and English</span></div>
           </div>
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
-          <div className="mode-switch">
-            <button
-              type="button"
-              className={mode === 'login' ? 'mode-switch__button mode-switch__button--active' : 'mode-switch__button'}
-              onClick={() => setMode('login')}
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className={mode === 'register' ? 'mode-switch__button mode-switch__button--active' : 'mode-switch__button'}
-              onClick={() => setMode('register')}
-            >
-              Register
-            </button>
-          </div>
-
-          {mode === 'register' ? (
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter your name"
-              />
+          <Stack spacing={2.5}>
+            <div className="mode-switch">
+              <button type="button" className={mode === 'login' ? 'mode-switch__button mode-switch__button--active' : 'mode-switch__button'} onClick={() => setMode('login')}>Login</button>
+              <button type="button" className={mode === 'register' ? 'mode-switch__button mode-switch__button--active' : 'mode-switch__button'} onClick={() => setMode('register')}>Register</button>
             </div>
-          ) : null}
 
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-            />
-          </div>
+            {mode === 'register' ? <TextField label="Full Name" name="name" value={formData.name} onChange={handleChange} fullWidth /> : null}
+            <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} fullWidth />
+            <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} fullWidth />
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-            />
-          </div>
+            {mode === 'register' ? (
+              <Box className="form-grid">
+                <TextField select label="Role" name="role" value={formData.role} onChange={handleChange} fullWidth>
+                  <MenuItem value="professor">Professor</MenuItem>
+                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="dean">Dean</MenuItem>
+                </TextField>
+                <TextField label="Department" name="department" value={formData.department} onChange={handleChange} fullWidth />
+              </Box>
+            ) : null}
 
-          {mode === 'register' ? (
-            <div className="form-grid">
-              <select name="role" value={formData.role} onChange={handleChange}>
-                <option value="professor">Professor</option>
-                <option value="admin">Admin</option>
-                <option value="dean">Dean</option>
-              </select>
-              <input
-                name="department"
-                type="text"
-                value={formData.department}
-                onChange={handleChange}
-                placeholder="Department"
-              />
-            </div>
-          ) : null}
+            {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
 
-          {errorMessage ? <p className="form-error">{errorMessage}</p> : null}
-
-          <button type="submit" className="primary-button primary-button--full" disabled={authLoading}>
-            {authLoading ? 'Please wait...' : mode === 'login' ? 'Enter Dashboard' : 'Create Account'}
-          </button>
+            <Button type="submit" variant="contained" size="large" className="primary-button primary-button--full" disabled={authLoading}>
+              {authLoading ? 'Please wait...' : mode === 'login' ? 'Enter Dashboard' : 'Create Account'}
+            </Button>
+          </Stack>
         </form>
-      </div>
+      </Paper>
     </div>
   );
 }

@@ -238,7 +238,22 @@ export default function AdminDashboard({ currentUser }) {
   };
 
   return (
-    <div className="page-grid">
+    <div className="page-grid admin-premium-page">
+      <SectionCard title="Command Center" subtitle="One place to shape the entire academic system, from faculty setup to student mapping and class assignments.">
+        <div className="premium-hero-grid admin-hero-grid">
+          <div className="premium-hero-card premium-hero-card--primary">
+            <div className="premium-hero-card__icon">AI</div>
+            <h3>Academic structure is now fully manageable</h3>
+            <p className="inline-note">Create departments, programs, batches, subjects, faculty, and assignments without leaving the dashboard.</p>
+          </div>
+          <div className="premium-chip-list admin-chip-list">
+            <span className="admin-pill">{users.length} faculty users</span>
+            <span className="admin-pill">{students.length} students mapped</span>
+            <span className="admin-pill">{assignments.length} live assignments</span>
+          </div>
+        </div>
+      </SectionCard>
+
       <div className="stats-grid">
         <StatCard title="Faculty Users" value={users.length} note="All staff accounts" />
         <StatCard title="Students" value={students.length} note="Across all departments" />
@@ -366,3 +381,4 @@ export default function AdminDashboard({ currentUser }) {
     </div>
   );
 }
+

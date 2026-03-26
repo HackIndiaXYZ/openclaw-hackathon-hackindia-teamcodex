@@ -1,4 +1,12 @@
-// This badge helps us show status in a clean visual way.
+import { Chip } from '@mui/material';
+
 export default function Badge({ label, tone = 'neutral' }) {
-  return <span className={`badge badge--${tone}`}>{label}</span>;
+  const colorMap = {
+    danger: 'error',
+    warning: 'warning',
+    success: 'success',
+    neutral: 'default'
+  };
+
+  return <Chip label={label} color={colorMap[tone] || 'default'} size="small" variant={tone === 'neutral' ? 'outlined' : 'filled'} />;
 }
