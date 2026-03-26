@@ -1,0 +1,1 @@
+// Skill profile model placeholder

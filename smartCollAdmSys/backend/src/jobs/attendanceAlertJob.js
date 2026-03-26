@@ -1,0 +1,1 @@
+// Attendance alert job placeholder
