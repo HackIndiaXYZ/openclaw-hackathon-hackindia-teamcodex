@@ -31,3 +31,4 @@ dist/
 # Uploaded or generated local face data
 known_faces/*.pkl
 known_faces/*.npy
+known_faces

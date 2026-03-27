@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://openclaw-hackathon-hackindia-teamcodex.onrender.com/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 const getToken = () => {
   return localStorage.getItem('edutrack_token');
