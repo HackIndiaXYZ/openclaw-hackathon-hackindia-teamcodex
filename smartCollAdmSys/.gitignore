@@ -1,0 +1,31 @@
+# Root ignores
+.env
+.env.*
+
+# Node
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+frontend/dist/
+backend/dist/
+
+# Python
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/venv/
+**/*.py[cod]
+python-service/build/
+python-service/dist/
+python-service/*.egg-info/
+
+# Local uploads and generated files
+backend/uploads/
+python-service/known_faces/*.pkl
+python-service/known_faces/*.npy
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

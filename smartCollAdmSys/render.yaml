@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: smart-coll-admin-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: MONGO_URI
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: PYTHON_SERVICE_URL
+        sync: false
+
+  - type: web
+    name: smart-coll-admin-python-service
+    runtime: docker
+    rootDir: python-service
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: FASTAPI_PORT
+        value: 8000
+      - key: MONGO_URI
+        sync: false
+      - key: KNOWN_FACES_DIR
+        value: known_faces
+      - key: FACE_MATCH_TOLERANCE
+        value: 0.5
+      - key: MAX_IMAGE_WIDTH
+        value: 1280

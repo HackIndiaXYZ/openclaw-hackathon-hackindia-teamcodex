@@ -1,4 +1,4 @@
-import { apiRequest } from './apiClient';
+import { apiRequest, buildApiUrl } from './apiClient';
 
 export const fetchAttendanceRecords = (filters = {}) => {
   const query = new URLSearchParams();
@@ -29,7 +29,7 @@ export const recognizeAttendanceImage = async ({ imageFile, facultyAssignmentId 
     formData.append('facultyAssignmentId', facultyAssignmentId);
   }
 
-  const response = await fetch('http://localhost:5000/api/attendance/recognize', {
+  const response = await fetch(buildApiUrl('/attendance/recognize'), {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,

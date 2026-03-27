@@ -1,3 +1,5 @@
+import { buildApiUrl } from './apiClient';
+
 export const fetchStudents = async (filters = {}) => {
   const token = localStorage.getItem('edutrack_token');
   const query = new URLSearchParams();
@@ -9,7 +11,7 @@ export const fetchStudents = async (filters = {}) => {
   });
 
   const queryString = query.toString();
-  const response = await fetch(`http://localhost:5000/api/students${queryString ? `?${queryString}` : ''}`, {
+  const response = await fetch(buildApiUrl(`/students${queryString ? `?${queryString}` : ''}`), {
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     credentials: 'include'
   });
@@ -33,7 +35,7 @@ export const createStudent = async (studentData) => {
     }
   });
 
-  const response = await fetch('http://localhost:5000/api/students', {
+  const response = await fetch(buildApiUrl('/students'), {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,
@@ -59,7 +61,7 @@ export const updateStudent = async (studentId, studentData) => {
     }
   });
 
-  const response = await fetch(`http://localhost:5000/api/students/${studentId}`, {
+  const response = await fetch(buildApiUrl(`/students/${studentId}`), {
     method: 'PUT',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,
